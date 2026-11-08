@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP 请求 Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #f0f2f5;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            padding: 40px 48px;
+            text-align: center;
+        }
+        button {
+            background: #1677ff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover { background: #4096ff; }
+        #result {
+            margin-top: 24px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>用户信息请求 Demo</h1>
+        <button id="fetchBtn">获取用户信息</button>
+        <div id="result"></div>
+    </div>
+    <script>
+        document.getElementById("fetchBtn").addEventListener("click", async () => {
+            const result = document.getElementById("result");
+            result.textContent = "请求中...";
+            try {
+                const resp = await fetch("/api/user");
+                if (!resp.ok) throw new Error("HTTP " + resp.status);
+                const data = await resp.json();
+                result.textContent = "用户名称: " + data.name;
+            } catch (err) {
+                result.textContent = "请求失败: " + err.message;
+            }
+        });
+    </script>
+</body>
+</html>
